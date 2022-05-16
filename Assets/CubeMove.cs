@@ -34,7 +34,7 @@ public class CubeMove : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, positions[positionIndex]);
     }
 
