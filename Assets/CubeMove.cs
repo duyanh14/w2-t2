@@ -30,7 +30,12 @@ public class CubeMove : MonoBehaviour
         } 
 
         transform.position = Vector3.MoveTowards(transform.position, positions[positionIndex], speed * Time.deltaTime);
-        transform.Rotate(10, speed * Time.deltaTime, 10);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, positions[positionIndex]);
     }
 
 }
