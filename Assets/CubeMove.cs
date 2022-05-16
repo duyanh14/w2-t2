@@ -30,6 +30,7 @@ public class CubeMove : MonoBehaviour
         } 
 
         transform.position = Vector3.MoveTowards(transform.position, positions[positionIndex], speed * Time.deltaTime);
+        transform.Rotate(10, speed * Time.deltaTime, 10);
     }
 
 }
