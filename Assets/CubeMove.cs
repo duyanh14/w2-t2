@@ -4,39 +4,37 @@ using UnityEngine;
 
 public class CubeMove : MonoBehaviour
 {
-    List<Vector3> positions = new List<Vector3>();
-    int positionIndex = 0;
-    float speed = 5f;
+    [SerializeField] Transform[] Positions;
+    
+    int PositionIndex = 0;
+    float Speed = 5f;
 
     void Start()
     {
         transform.Translate(0,0,0);
-
-        this.positions.Add(new Vector3(-10, 0f, 0f));
-        this.positions.Add(new Vector3(-10, 0f, 10f));
-        this.positions.Add(new Vector3(0f, 0f, 10f));
-        this.positions.Add(new Vector3(0f, 0f, 0f));
     }
 
     void Update()
     {
-        if (Vector3.Distance(positions[positionIndex], transform.position) == 0)
+        if (Positions.Length == 0){
+            return;
+        }
+        if (Vector3.Distance(Positions[PositionIndex].position, transform.position) == 0)
         {
-            positionIndex++;
-            if (positionIndex > positions.Count-1)
+            PositionIndex++;
+            if (PositionIndex > Positions.Length-1)
             {
-                positionIndex = 0;
+                PositionIndex = 0;
             }
         } 
 
-        transform.position = Vector3.MoveTowards(transform.position, positions[positionIndex], speed * Time.deltaTime);
-        transform.Rotate(10, speed * Time.deltaTime, 10);
+        transform.position = Vector3.MoveTowards(transform.position, Positions[PositionIndex].position, Speed * Time.deltaTime);
+        transform.Rotate(10, Speed * Time.deltaTime, 10);
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, positions[positionIndex]);
+       
     }
 
 }
