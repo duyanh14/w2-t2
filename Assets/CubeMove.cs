@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CubeMove : MonoBehaviour
 {
-    [SerializeField] Transform[] Positions;
+    [SerializeField] List<Transform> Positions = new List<Transform>();
     
     int PositionIndex = 0;
     float Speed = 5f;
@@ -14,19 +14,31 @@ public class CubeMove : MonoBehaviour
         transform.Translate(0,0,0);
     }
 
-    void Update()
+    void SetPositionIndex()
     {
-        if (Positions.Length == 0){
+        if (PositionIndex > Positions.Count - 1)
+        {
+            PositionIndex = 0;
             return;
         }
+        PositionIndex++;
+    }
+
+    void Update()
+    {
+        if (Positions.Count == 0){
+            return;
+        }
+
+        if (Positions[PositionIndex] == null) {
+            Positions.RemoveAt(PositionIndex);
+            SetPositionIndex();
+        }
+
         if (Vector3.Distance(Positions[PositionIndex].position, transform.position) == 0)
         {
-            PositionIndex++;
-            if (PositionIndex > Positions.Length-1)
-            {
-                PositionIndex = 0;
-            }
-        } 
+            SetPositionIndex();
+        }
 
         transform.position = Vector3.MoveTowards(transform.position, Positions[PositionIndex].position, Speed * Time.deltaTime);
         transform.Rotate(10, Speed * Time.deltaTime, 10);
@@ -34,6 +46,10 @@ public class CubeMove : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (Positions[PositionIndex] == null)
+        {
+            return;
+        }
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, Positions[PositionIndex].position);
     }
